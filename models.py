@@ -9,6 +9,7 @@ import xgboost as xgb
 
 
 THRESHOLD = 0.6
+N_ESTIMATORS = 300
 
 
 def print_confusion_matrix(y_test, y_pred, title='Confusion matrix'):
@@ -18,7 +19,7 @@ def print_confusion_matrix(y_test, y_pred, title='Confusion matrix'):
     plt.show()
 
 def run_random_forest(X_train, y_train, X_test, y_test):
-    model = RandomForestClassifier(random_state=42, class_weight='balanced')
+    model = RandomForestClassifier(random_state=42, class_weight='balanced', n_estimators=N_ESTIMATORS)
     model.fit(X_train, y_train)
 
     y_prob = model.predict_proba(X_test)[:, 1]
@@ -42,7 +43,7 @@ def run_xgboost(X_train, y_train, X_test, y_test):
         'eval_metric': 'logloss',
         'scale_pos_weight': amount_no_incident / amount_incident
     }
-    model = xgb.train(params, train_data, num_boost_round=100)
+    model = xgb.train(params, train_data, num_boost_round=N_ESTIMATORS)
 
     y_prob = model.predict(test_data)
     y_pred = (y_prob > THRESHOLD).astype(int)

@@ -4,8 +4,8 @@ import pandas as pd
 TRAIN_PERCENTAGE = 0.8
 
 def load_data():
-    metrics = pd.read_parquet("dataset/1/20.parquet")
-    feature_columns = ['total_power_avg', 'gpu0_core_temp_avg', 'gpu0_mem_temp_avg', 'fan0_0_avg']
+    metrics = pd.read_parquet("dataset/20.parquet")
+    feature_columns = ['total_power_avg', 'gpu0_core_temp_avg', 'gpu0_mem_temp_avg', 'ps0_output_curre_avg', 'ps0_input_voltag_avg']
     # feature_columns = metrics.select_dtypes(include=[np.number]).columns
 
     X = metrics[feature_columns].copy()
