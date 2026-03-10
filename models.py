@@ -1,15 +1,12 @@
-import xgboost
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay, recall_score, precision_score
-import numpy as np
-from sklearn.model_selection import RandomizedSearchCV
 import matplotlib.pyplot as plt
-import pandas as pd
 import xgboost as xgb
 
 
 THRESHOLD = 0.6
 N_ESTIMATORS = 300
+MAX_DEPTH = 6
 
 
 def print_confusion_matrix(y_test, y_pred, title='Confusion matrix'):
@@ -19,7 +16,7 @@ def print_confusion_matrix(y_test, y_pred, title='Confusion matrix'):
     plt.show()
 
 def run_random_forest(X_train, y_train, X_test, y_test):
-    model = RandomForestClassifier(random_state=42, class_weight='balanced', n_estimators=N_ESTIMATORS)
+    model = RandomForestClassifier(random_state=42, class_weight='balanced', n_estimators=N_ESTIMATORS, max_depth=MAX_DEPTH)
     model.fit(X_train, y_train)
 
     y_prob = model.predict_proba(X_test)[:, 1]
@@ -41,7 +38,8 @@ def run_xgboost(X_train, y_train, X_test, y_test):
     params = {
         'objective': 'binary:logistic',
         'eval_metric': 'logloss',
-        'scale_pos_weight': amount_no_incident / amount_incident
+        'scale_pos_weight': amount_no_incident / amount_incident,
+        'max_depth': MAX_DEPTH
     }
     model = xgb.train(params, train_data, num_boost_round=N_ESTIMATORS)
 

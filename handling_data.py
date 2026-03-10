@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 
+
 TRAIN_PERCENTAGE = 0.8
+
 
 def load_data():
     metrics = pd.read_parquet("dataset/20.parquet")
