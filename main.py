@@ -1,12 +1,19 @@
 from handling_data import load_data, create_samples
-from models import run_random_forest, run_xgboost
+from model_random_forest import RandomForest
+from model_xgboost import XGBoost
 
 
 def alternative_model(train_data, test_data):
-    return run_random_forest(*train_data, *test_data)
+    rf = RandomForest()
+    rf.train(*train_data)
+    return rf.evaluate(*test_data)
+
 
 def preferred_model(train_data, test_data):
-    return run_xgboost(*train_data, *test_data)
+    xgb = XGBoost()
+    xgb.train(*train_data)
+    return xgb.evaluate(*test_data)
+
 
 def main():
     X, y = load_data()
@@ -14,10 +21,9 @@ def main():
 
     accuracy, recall, precision = preferred_model(train_data, test_data)
     print(accuracy, recall, precision)
+
     accuracy, recall, precision = alternative_model(train_data, test_data)
     print(accuracy, recall, precision)
-
-
 
 
 if __name__ == "__main__":

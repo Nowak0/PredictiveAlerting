@@ -17,6 +17,7 @@ def load_data():
 
     return X, y
 
+
 def create_samples(X, y, past_steps=5, future_steps=3):
     X_batches = []
     y_batches = []
