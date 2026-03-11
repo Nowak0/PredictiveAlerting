@@ -18,7 +18,7 @@ Random Forest and XGBoost were selected for this task for the following reasons:
     - **Configuration**: `300 estimators`, `class_weight='balanced'` to handle the rarity of incidents.
 
 2.  **XGBoost (Extreme Gradient Boosting)**:
-    - **Rationale**: This model was selected because it is a gradient boosting method that sequentially corrects errors from previous trees, often achieving superior results. It is efficient and can handle imbalanced datasets effectively with parameters such as `scale_pos_weight`.
+    - **Rationale**: This model was selected because it is a gradient boosting method that sequentially corrects errors from previous trees, often achieving better results. It is efficient and can handle imbalanced datasets effectively with parameters such as `scale_pos_weight`.
     - **Configuration**: `300 boosting rounds`, `binary:logistic` objective.
 
 ### Sampling Strategy
@@ -27,7 +27,7 @@ A **sliding window** approach was applied to convert the time-series data into s
 ## Evaluation Setup
 
 - **Train/Test Split**: 80/20 chronological split.
-- **Classification Threshold**: **0.6** (to ensure high-confidence alerts).
+- **Classification Threshold**: 0.6.
 - **Primary Metric**: **Recall** is prioritized. In predictive alerting, missing a critical failure (False Negative) is more costly than a false alarm (False Positive).
 
 ## Analysis of Results & Impact of Depth
@@ -59,7 +59,7 @@ The models were analyzed across three maximum depth settings: **24, 12, and 6**.
 | **6** | XGBoost | 98.87% | 67.72% | 48.67% |
 
 **Observations**:
-- With limited features, **Depth 6** causes Random Forest to "guess" much more aggressively, boosting Recall to 82.5% but crashing Precision to a mere 13%. This indicates the model is essentially alerting on almost any fluctuation.
+- With limited features, **Depth 6** causes Random Forest to guess much more aggressively, boosting Recall to 82.5% but crashing Precision to a mere 13%. This indicates the model is essentially alerting on almost any fluctuation.
 - **XGBoost** maintains much better stability in Precision (~50%) while keeping Recall near 68%.
 
 ## Model Comparison & Visualizations
